@@ -13,7 +13,8 @@ export function ResultView({
 }) {
   const level = DEVELOPMENT_LEVELS[result.developmentLevel];
   const style = LEADERSHIP_STYLES[result.leadershipStyle];
-  const who = memberName?.trim() || "이 팀원";
+  const who = memberName?.trim() || "이 팀장";
+  const plan = result.delegationPlan;
 
   return (
     <div className="space-y-5">
@@ -32,7 +33,7 @@ export function ResultView({
             {level.id} · {level.name}
           </p>
           <p className="mt-2 text-sm text-slate-600">
-            역량 <b>{level.competence}</b> · 의욕/헌신 <b>{level.commitment}</b>
+            역량 <b>{level.competence}</b> · 의욕/의지 <b>{level.commitment}</b>
           </p>
           <p className="mt-2 text-sm leading-relaxed text-slate-600">{level.description}</p>
         </div>
@@ -64,7 +65,21 @@ export function ResultView({
         <p className="mt-2 text-sm leading-relaxed text-slate-700">{result.summary}</p>
         <div className="mt-4 grid gap-2 sm:grid-cols-2">
           <Reading label="역량 판단" text={result.competenceReading} />
-          <Reading label="의욕·헌신 판단" text={result.commitmentReading} />
+          <Reading label="의욕·의지 판단" text={result.commitmentReading} />
+        </div>
+      </div>
+
+      {/* 위임 실행 가이드 (핵심 추가 영역) */}
+      <div className="rounded-2xl border border-slate-200 bg-white p-5">
+        <p className="text-sm font-semibold text-slate-700">위임 실행 가이드</p>
+        <p className="mt-1 text-xs text-slate-500">
+          {level.id} 수준에 맞춰 위임을 이렇게 설계하세요. (초안이니 상황에 맞게 조정하세요)
+        </p>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2">
+          <PlanCard emoji="🎯" label="기대결과" text={plan.expectedOutcome} tone="sky" />
+          <PlanCard emoji="🔑" label="권한범위" text={plan.authorityScope} tone="violet" />
+          <PlanCard emoji="🔁" label="점검방식" text={plan.checkInMethod} tone="teal" />
+          <PlanCard emoji="🆘" label="지원요청 기준" text={plan.supportRequestCriteria} tone="amber" />
         </div>
       </div>
 
@@ -98,7 +113,7 @@ export function ResultView({
 
       {/* 오프닝 멘트 */}
       <div className="rounded-2xl border border-slate-200 bg-white p-5">
-        <p className="text-sm font-semibold text-slate-700">대화를 이렇게 시작해 보세요</p>
+        <p className="text-sm font-semibold text-slate-700">위임 대화를 이렇게 시작해 보세요</p>
         <blockquote className="mt-2 border-l-4 border-indigo-300 bg-slate-50 px-4 py-3 text-sm italic leading-relaxed text-slate-700">
           “{result.openingLine}”
         </blockquote>
@@ -112,6 +127,36 @@ function Reading({ label, text }: { label: string; text: string }) {
     <div className="rounded-lg bg-slate-50 px-3 py-2">
       <p className="text-[11px] font-medium text-slate-500">{label}</p>
       <p className="mt-0.5 text-sm leading-relaxed text-slate-700">{text}</p>
+    </div>
+  );
+}
+
+const TONE: Record<string, { border: string; bg: string; label: string }> = {
+  sky: { border: "border-sky-200", bg: "bg-sky-50", label: "text-sky-700" },
+  violet: { border: "border-violet-200", bg: "bg-violet-50", label: "text-violet-700" },
+  teal: { border: "border-teal-200", bg: "bg-teal-50", label: "text-teal-700" },
+  amber: { border: "border-amber-200", bg: "bg-amber-50", label: "text-amber-700" },
+};
+
+function PlanCard({
+  emoji,
+  label,
+  text,
+  tone,
+}: {
+  emoji: string;
+  label: string;
+  text: string;
+  tone: keyof typeof TONE;
+}) {
+  const t = TONE[tone];
+  return (
+    <div className={`rounded-xl border ${t.border} ${t.bg} p-4`}>
+      <p className={`flex items-center gap-1.5 text-sm font-semibold ${t.label}`}>
+        <span aria-hidden>{emoji}</span>
+        {label}
+      </p>
+      <p className="mt-1.5 text-sm leading-relaxed text-slate-700">{text}</p>
     </div>
   );
 }

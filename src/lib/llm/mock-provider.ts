@@ -1,6 +1,6 @@
 import type { CompletionRequest, LlmProvider } from "./provider";
 import { DEVELOPMENT_LEVELS, type DevelopmentLevel } from "@/config/blanchard";
-import type { DiagnosisResult } from "@/types/diagnosis";
+import type { DelegationPlan, DiagnosisResult } from "@/types/diagnosis";
 
 /**
  * API Key 가 없을 때 동작하는 Mock Provider.
@@ -26,10 +26,11 @@ export class MockProvider implements LlmProvider {
       developmentLevel: level,
       leadershipStyle: info.recommendedStyle,
       competenceReading: `입력 내용에서 역량은 '${info.competence}' 수준으로 보입니다. (예시 분석)`,
-      commitmentReading: `의욕·헌신은 '${info.commitment}' 수준으로 보입니다. (예시 분석)`,
+      commitmentReading: `의욕·의지는 '${info.commitment}' 수준으로 보입니다. (예시 분석)`,
       summary: `${info.name}(${level})으로 추정됩니다. ${info.description} 이 결과는 API 키가 없어 예시(Mock)로 생성된 것으로, 실제 분석 품질은 Anthropic 키를 설정하면 나옵니다.`,
       supportActions: MOCK_ACTIONS[level],
       watchOuts: MOCK_WATCHOUTS[level],
+      delegationPlan: MOCK_PLANS[level],
       openingLine: MOCK_OPENINGS[level],
     };
     return JSON.stringify(result);
@@ -86,6 +87,39 @@ const MOCK_WATCHOUTS: Record<DevelopmentLevel, string[]> = {
   D2: ["이 구간에서 방치하면 이탈로 이어지기 쉽습니다.", "질책·압박보다 지원이 먼저입니다."],
   D3: ["세세한 지시는 오히려 자율성과 신뢰를 떨어뜨립니다.", "확신 부족을 능력 부족으로 오해하지 마세요."],
   D4: ["과도한 확인·간섭은 동기를 떨어뜨립니다.", "완전 방치가 아니라 신뢰 기반의 소통은 유지하세요."],
+};
+
+const MOCK_PLANS: Record<DevelopmentLevel, DelegationPlan> = {
+  D1: {
+    expectedOutcome:
+      "완성도 높은 결과보다 기본기 습득과 절차 이해에 무게를 두세요. 첫 사이클은 학습이 성과입니다.",
+    authorityScope:
+      "정해진 절차·기준 안에서 실행하도록 권한을 좁게 부여합니다. 방향·우선순위 결정은 부서장이 함께 잡아 줍니다.",
+    checkInMethod: "짧은 주기(수시~주 2~3회)로 자주 확인하고, 구체적이고 즉각적인 피드백을 줍니다.",
+    supportRequestCriteria: "막히거나 확신이 서지 않으면 바로 물어보게 합니다. 혼자 오래 붙들지 않도록 안내하세요.",
+  },
+  D2: {
+    expectedOutcome:
+      "성과 자체보다 자신감 회복과 이탈 방지가 우선입니다. 작은 성공 경험을 만들어 주는 것을 목표로 하세요.",
+    authorityScope:
+      "권한은 조금씩 넓히되 핵심 판단은 함께 결정합니다. 스스로 정할 영역과 함께 정할 영역을 분명히 구분해 주세요.",
+    checkInMethod: "정서적 지지가 섞인 코칭형 점검. 진행 상황과 함께 '요즘 어떤지'도 함께 물어봅니다.",
+    supportRequestCriteria: "어려움·불안이 쌓이기 전에 공유하도록 합니다. 부정적 신호를 빨리 꺼내는 것을 격려하세요.",
+  },
+  D3: {
+    expectedOutcome:
+      "안정적인 완수와 함께 스스로에 대한 확신 회복을 기대합니다. 결과와 자율적 판단 경험을 함께 얻게 하세요.",
+    authorityScope: "방법과 실행 권한은 대부분 위임합니다. 조직 차원의 리스크·자원 배분만 확인받게 하세요.",
+    checkInMethod: "질문·경청 중심의 지원형 점검. 지시보다 '어떻게 하고 싶은지'를 먼저 듣습니다.",
+    supportRequestCriteria: "판단이 갈리거나 의사결정에 확신이 안 설 때 함께 검토하자고 요청하게 합니다.",
+  },
+  D4: {
+    expectedOutcome:
+      "높은 자율성 아래 목표 달성은 물론 개선·확장까지 기대할 수 있습니다. 더 큰 책임으로 이어질 성과를 지향하세요.",
+    authorityScope: "목표만 합의하고 방법·자원 배분까지 위임합니다. 예외적으로 상위 의사결정만 확인받게 하세요.",
+    checkInMethod: "결과 중심의 최소 개입. 정기 결과 공유 외에는 먼저 찾아가지 않습니다.",
+    supportRequestCriteria: "중대한 리스크나 상위 의사결정이 걸릴 때만 요청하게 합니다. 평소 실행은 전적으로 맡깁니다.",
+  },
 };
 
 const MOCK_OPENINGS: Record<DevelopmentLevel, string> = {

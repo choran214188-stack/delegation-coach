@@ -17,20 +17,28 @@ export const diagnoseInputSchema = z.object({
   memberContext: z
     .string()
     .trim()
-    .min(5, "대상 팀원의 상황·성향을 조금 더 설명해 주세요.")
+    .min(5, "대상 팀장의 성격·역량·의지를 조금 더 설명해 주세요.")
     .max(2000, "설명이 너무 깁니다. 2000자 이내로 입력해 주세요."),
 });
+
+const shortText = z.string().trim().min(1);
 
 /** LLM 응답(JSON) 검증 스키마. */
 const resultSchema = z.object({
   developmentLevel: z.enum(DEVELOPMENT_LEVEL_IDS as [string, ...string[]]),
   leadershipStyle: z.enum(LEADERSHIP_STYLE_IDS as [string, ...string[]]),
-  competenceReading: z.string().trim().min(1),
-  commitmentReading: z.string().trim().min(1),
-  summary: z.string().trim().min(1),
-  supportActions: z.array(z.string().trim().min(1)).min(1).max(6),
-  watchOuts: z.array(z.string().trim().min(1)).min(1).max(5),
-  openingLine: z.string().trim().min(1),
+  competenceReading: shortText,
+  commitmentReading: shortText,
+  summary: shortText,
+  supportActions: z.array(shortText).min(1).max(6),
+  watchOuts: z.array(shortText).min(1).max(5),
+  delegationPlan: z.object({
+    expectedOutcome: shortText,
+    authorityScope: shortText,
+    checkInMethod: shortText,
+    supportRequestCriteria: shortText,
+  }),
+  openingLine: shortText,
 });
 
 /**
@@ -53,8 +61,8 @@ export function parseDiagnosis(raw: string): DiagnosisResult {
 
   const data = result.data;
   // 발달수준-스타일 정합성 보정: 스타일이 권장 스타일과 다르면 권장 스타일로 맞춘다.
-  const recommended = DEVELOPMENT_LEVELS[data.developmentLevel as keyof typeof DEVELOPMENT_LEVELS]
-    .recommendedStyle;
+  const recommended =
+    DEVELOPMENT_LEVELS[data.developmentLevel as keyof typeof DEVELOPMENT_LEVELS].recommendedStyle;
 
   return {
     developmentLevel: data.developmentLevel as DiagnosisResult["developmentLevel"],
@@ -66,6 +74,7 @@ export function parseDiagnosis(raw: string): DiagnosisResult {
     summary: data.summary,
     supportActions: data.supportActions,
     watchOuts: data.watchOuts,
+    delegationPlan: data.delegationPlan,
     openingLine: data.openingLine,
   };
 }
