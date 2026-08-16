@@ -14,7 +14,6 @@ export default function Page() {
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<DiagnosisResult | null>(null);
-  const [mock, setMock] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -34,7 +33,6 @@ export default function Page() {
         return;
       }
       setResult(data.result);
-      setMock(data.mock);
       setStatus("done");
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch {
@@ -57,7 +55,7 @@ export default function Page() {
       <header className="mb-9 text-center">
         <p className="eyebrow text-gold">Blanchard SLII · 상황대응 리더십</p>
         <h1 className="mt-3 text-4xl font-bold tracking-tight text-ink sm:text-[2.75rem]">
-          위임 코치
+          위임 나침반
         </h1>
         <div className="mx-auto mt-4 h-px w-14 bg-gradient-to-r from-transparent via-gold to-transparent" />
         <p className="mx-auto mt-4 max-w-md text-[15px] leading-relaxed text-ink-muted">
@@ -136,7 +134,7 @@ export default function Page() {
 
       {status === "done" && result && (
         <div className="animate-rise">
-          <ResultView result={result} mock={mock} memberName={memberName} />
+          <ResultView result={result} memberName={memberName} />
           <button
             onClick={handleReset}
             className="mt-8 w-full rounded-2xl border border-line bg-surface px-4 py-3.5 text-sm font-semibold text-ink-soft shadow-soft transition hover:border-ink/20 hover:text-ink"

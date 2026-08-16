@@ -4,11 +4,9 @@ import { SliiGrid } from "./SliiGrid";
 
 export function ResultView({
   result,
-  mock,
   memberName,
 }: {
   result: DiagnosisResult;
-  mock: boolean;
   memberName?: string;
 }) {
   const level = DEVELOPMENT_LEVELS[result.developmentLevel];
@@ -25,14 +23,6 @@ export function ResultView({
 
   return (
     <div className="space-y-4">
-      {mock && (
-        <div className="rounded-2xl border border-gold/30 bg-gold-pale px-4 py-3 text-[13px] leading-relaxed text-ink-soft">
-          지금은 <b className="text-ink">예시 모드</b>입니다. 서버에{" "}
-          <code className="rounded bg-white/70 px-1 py-0.5 text-[12px]">ANTHROPIC_API_KEY</code> 를
-          설정하면 실제 AI 진단이 나옵니다.
-        </div>
-      )}
-
       {/* 히어로: 발달수준 */}
       <div className="relative overflow-hidden rounded-3xl bg-ink p-7 text-white shadow-panel sm:p-8">
         <div
