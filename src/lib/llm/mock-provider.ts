@@ -49,22 +49,25 @@ export class MockProvider implements LlmProvider {
 function guessLevel(text: string): DevelopmentLevel {
   const has = (words: string[]) => words.some((w) => text.includes(w));
 
-  // 좌절/번아웃 신호 → D2
-  if (has(["지쳐", "번아웃", "자신감이 없", "좌절", "실수", "힘들어", "포기", "의욕이 없", "동기부여"])) {
-    return "D2";
-  }
-  // 신입/처음 + 의욕 → D1
-  if (has(["신입", "처음", "입사", "배우고", "열정", "의욕이 높", "새로 왔", "주니어"])) {
-    return "D1";
-  }
-  // 베테랑/능숙/자율 → D4
-  if (has(["베테랑", "능숙", "알아서", "믿고 맡", "전문가", "리드", "주도적", "10년", "시니어"])) {
-    return "D4";
-  }
-  // 잘하지만 불안/확신 부족 → D3
-  if (has(["잘하는데", "불안", "확신이 없", "머뭇", "완벽주의", "부담", "눈치"])) {
-    return "D3";
-  }
+  const compHigh = has([
+    "역량이 있", "역량과", "역량은 있", "지식이 있", "능력이 있", "잘함", "잘하는", "능숙",
+    "베테랑", "전문가", "노련", "경험이 많", "10년", "시니어", "숙련",
+  ]);
+  const compLow = has([
+    "신입", "처음", "입사", "배우고", "새로 왔", "주니어", "해본 적 없", "미숙", "경험이 없",
+  ]);
+  const willHigh = has(["의욕이 높", "열정", "의지", "적극", "하고 싶", "동기부여"]);
+  const willLow = has([
+    "지쳐", "번아웃", "자신감이 없", "좌절", "힘들어", "포기", "의욕이 없", "불안", "머뭇", "확신이 없",
+  ]);
+
+  // 두 축이 뚜렷하면 조합 매핑을 우선
+  if (compHigh && !compLow) return willLow ? "D3" : "D4";
+  if (compLow) return willLow ? "D2" : "D1";
+
+  // 신호가 애매하면 의욕 신호로 추정
+  if (willLow) return "D2";
+  if (willHigh) return "D1";
   return "D3";
 }
 
