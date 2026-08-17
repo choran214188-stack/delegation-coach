@@ -24,6 +24,8 @@ export interface DevelopmentLevelInfo {
   oneLiner: string;
   /** 유형별 포인트 색 (교육 자료 색상 코드) */
   accent: string;
+  /** 지원적 행동 대화의 전체 접근 (교육 자료 유형별 부제) */
+  supportiveHeadline: string;
 }
 
 export interface LeadershipStyleInfo {
@@ -49,6 +51,7 @@ export const DEVELOPMENT_LEVELS: Record<DevelopmentLevel, DevelopmentLevelInfo> 
     delegationMode: "구체적 지시 중심",
     oneLiner: "구체적으로 지시하고, 자주 확인합니다.",
     accent: "#C0453A",
+    supportiveHeadline: "구체적으로 알려주고, 작은 성공을 바로 인정하는 대화",
   },
   D2: {
     id: "D2",
@@ -61,6 +64,7 @@ export const DEVELOPMENT_LEVELS: Record<DevelopmentLevel, DevelopmentLevelInfo> 
     delegationMode: "단계적 위임",
     oneLiner: "작게 나누어 맡기고, 함께 풀어갑니다.",
     accent: "#C67B2C",
+    supportiveHeadline: "충분히 설명하고 질문하며, 함께 답을 찾아가는 대화",
   },
   D3: {
     id: "D3",
@@ -73,6 +77,7 @@ export const DEVELOPMENT_LEVELS: Record<DevelopmentLevel, DevelopmentLevelInfo> 
     delegationMode: "자율 + 지원",
     oneLiner: "자율성을 보장하고, 필요할 때 지원합니다.",
     accent: "#3F7A5B",
+    supportiveHeadline: "의견을 충분히 듣고 인정하며, 자신감을 높이는 대화",
   },
   D4: {
     id: "D4",
@@ -84,6 +89,7 @@ export const DEVELOPMENT_LEVELS: Record<DevelopmentLevel, DevelopmentLevelInfo> 
     delegationMode: "결과 중심 위임",
     oneLiner: "결과만 합의하고, 자율적으로 맡깁니다.",
     accent: "#2F5D86",
+    supportiveHeadline: "판단을 존중하고 신뢰를 표현하며, 자율성을 보장하는 대화",
   },
 };
 

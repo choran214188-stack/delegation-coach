@@ -26,12 +26,19 @@ export interface DevelopmentSignals {
   warning: string[];
 }
 
-/** 위임 대화 스크립트 한 단계. */
-export interface ConversationStep {
-  /** 단계 이름 (예: 도입 / 목표·기대 / 권한·점검 / 마무리) */
-  stage: string;
-  /** 그 단계에서 부서장이 할 실제 대사 */
-  line: string;
+/**
+ * 지원적 행동 대화 접근 (4가지 관점).
+ * 각 값은 이 팀장·업무에 맞춘 실제 예시 대사.
+ */
+export interface SupportiveApproach {
+  /** 의견 경청 및 질문 */
+  listen: string;
+  /** 참여적 의사결정 */
+  decide: string;
+  /** 인정과 격려 */
+  recognize: string;
+  /** 자율성 및 성장 지원 */
+  grow: string;
 }
 
 /** AI 분석 결과. */
@@ -56,8 +63,8 @@ export interface DiagnosisResult {
   delegationPlan: DelegationPlan;
   /** 발달 신호 (레벨 이동 판단) */
   developmentSignals: DevelopmentSignals;
-  /** 위임 대화 스크립트 (단계별 대사) */
-  conversationScript: ConversationStep[];
+  /** 지원적 행동 대화 접근 (4가지 관점, 상황 맞춤 예시) */
+  supportiveApproach: SupportiveApproach;
 }
 
 export interface DiagnoseSuccess {

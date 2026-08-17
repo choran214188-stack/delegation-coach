@@ -1,10 +1,10 @@
 import type { CompletionRequest, LlmProvider } from "./provider";
 import { DEVELOPMENT_LEVELS, type DevelopmentLevel } from "@/config/blanchard";
 import type {
-  ConversationStep,
   DelegationPlan,
   DevelopmentSignals,
   DiagnosisResult,
+  SupportiveApproach,
 } from "@/types/diagnosis";
 
 /**
@@ -40,7 +40,7 @@ export class MockProvider implements LlmProvider {
       watchOuts: MOCK_WATCHOUTS[level],
       delegationPlan: MOCK_PLANS[level],
       developmentSignals: MOCK_SIGNALS[level],
-      conversationScript: MOCK_SCRIPTS[level],
+      supportiveApproach: MOCK_SUPPORT[level],
     };
     return JSON.stringify(result);
   }
@@ -144,29 +144,29 @@ const MOCK_SIGNALS: Record<DevelopmentLevel, DevelopmentSignals> = {
   },
 };
 
-const MOCK_SCRIPTS: Record<DevelopmentLevel, ConversationStep[]> = {
-  D1: [
-    { stage: "도입", line: "이번 일 처음이라 낯설 텐데, 부담 갖지 말고 같이 시작해봐요." },
-    { stage: "목표·기대 공유", line: "목표는 이거고, 첫 단계는 여기까지만 이렇게 해보면 돼요." },
-    { stage: "권한·점검 합의", line: "정해진 방식대로 진행하고, 이틀에 한 번씩 짧게 같이 확인해요." },
-    { stage: "확인·마무리", line: "막히면 바로 얘기해요. 혼자 오래 붙들지 않아도 됩니다." },
-  ],
-  D2: [
-    { stage: "도입", line: "요즘 이 업무가 생각보다 만만치 않죠. 잠깐 얘기 좀 해요." },
-    { stage: "목표·기대 공유", line: "한 번에 다 말고, 이번엔 이 부분만 목표로 잡아봐요." },
-    { stage: "권한·점검 합의", line: "핵심 결정은 같이 하고, 중간중간 어떻게 돼가는지 나눠요." },
-    { stage: "확인·마무리", line: "지금 제일 부담되는 게 뭐예요? 같이 풀어봐요." },
-  ],
-  D3: [
-    { stage: "도입", line: "이 부분은 충분히 잘 해내고 있어요. 이번 건 얘기해볼까요?" },
-    { stage: "목표·기대 공유", line: "최종 결과랑 기준만 맞추고, 방법은 편한 대로 해도 좋아요." },
-    { stage: "권한·점검 합의", line: "주요 지점에서만 공유해주고, 판단은 믿고 맡길게요." },
-    { stage: "확인·마무리", line: "어떻게 진행하고 싶은지 먼저 듣고 싶어요." },
-  ],
-  D4: [
-    { stage: "도입", line: "이 건은 믿고 맡기려고요. 방향만 간단히 맞춰봐요." },
-    { stage: "목표·기대 공유", line: "결과와 방향만 합의하고, 방식·자원은 알아서 정하면 돼요." },
-    { stage: "권한·점검 합의", line: "결정 권한은 전적으로 넘길게요. 결과로 소통해요." },
-    { stage: "확인·마무리", line: "중대한 리스크나 판단 필요할 때만 편하게 얘기해요." },
-  ],
+const MOCK_SUPPORT: Record<DevelopmentLevel, SupportiveApproach> = {
+  D1: {
+    listen: "어떤 부분이 가장 헷갈려요? 어려운 지점부터 같이 짚어봐요.",
+    decide: "우선 방향은 제가 잡을게요. 대신 해보다가 느낀 점은 바로 말해주세요.",
+    recognize: "지금처럼 하나씩 해내고 있어요. 이 속도면 충분히 잘 할 수 있어요.",
+    grow: "이번엔 제가 같이 갈게요. 익숙해지면 다음엔 직접 해보는 걸로 해요.",
+  },
+  D2: {
+    listen: "지금 가장 막히는 게 뭐예요? 왜 어렵게 느껴지는지 같이 풀어봐요.",
+    decide: "본인 생각엔 어떤 방법이 나아 보여요? 그 방향으로 한번 가봅시다.",
+    recognize: "여기까지 해낸 것만 봐도 충분히 가능성이 보여요.",
+    grow: "초안은 직접 잡아보고, 막히는 부분은 제가 같이 도울게요.",
+  },
+  D3: {
+    listen: "혹시 망설여지는 지점 있어요? 걸리는 부분 편하게 말해줘요.",
+    decide: "이 건은 본인 판단을 중심으로 결정해도 좋을 것 같아요.",
+    recognize: "역량은 충분해요. 지금 필요한 건 확신이니 믿고 가봅시다.",
+    grow: "방법은 알아서 정해요. 필요한 순간에만 제가 지원할게요.",
+  },
+  D4: {
+    listen: "큰 방향만 한번 맞춰볼까요? 실행은 본인 판단대로 가면 돼요.",
+    decide: "핵심 결과와 일정만 합의하고, 세부 실행은 직접 주도해 주세요.",
+    recognize: "결과뿐 아니라 그 과정의 판단도 신뢰해요.",
+    grow: "자원이나 도움이 필요할 때만 알려줘요. 바로 지원할게요.",
+  },
 };

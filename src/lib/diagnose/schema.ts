@@ -44,10 +44,12 @@ const resultSchema = z.object({
     levelUp: z.array(shortText).min(1).max(4),
     warning: z.array(shortText).min(1).max(4),
   }),
-  conversationScript: z
-    .array(z.object({ stage: shortText, line: shortText }))
-    .min(2)
-    .max(6),
+  supportiveApproach: z.object({
+    listen: shortText,
+    decide: shortText,
+    recognize: shortText,
+    grow: shortText,
+  }),
 });
 
 /**
@@ -87,7 +89,7 @@ export function parseDiagnosis(raw: string): DiagnosisResult {
     watchOuts: data.watchOuts,
     delegationPlan: data.delegationPlan,
     developmentSignals: data.developmentSignals,
-    conversationScript: data.conversationScript,
+    supportiveApproach: data.supportiveApproach,
   };
 }
 

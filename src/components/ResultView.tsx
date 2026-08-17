@@ -1,6 +1,14 @@
 import { DEVELOPMENT_LEVELS, LEADERSHIP_STYLES } from "@/config/blanchard";
-import type { DiagnosisResult } from "@/types/diagnosis";
+import type { DiagnosisResult, SupportiveApproach } from "@/types/diagnosis";
 import { SliiGrid } from "./SliiGrid";
+
+/** 지원적 행동 대화의 4가지 관점 (교육 자료 기준, 고정). */
+const SUPPORTIVE_CATEGORIES: { key: keyof SupportiveApproach; label: string; hint: string }[] = [
+  { key: "listen", label: "의견 경청 및 질문", hint: "먼저 듣고 열린 질문으로" },
+  { key: "decide", label: "참여적 의사결정", hint: "결정에 참여시키기" },
+  { key: "recognize", label: "인정과 격려", hint: "구체적으로 인정하기" },
+  { key: "grow", label: "자율성 및 성장 지원", hint: "스스로 하도록 지원" },
+];
 
 export function ResultView({
   result,
@@ -120,29 +128,22 @@ export function ResultView({
         </div>
       </Card>
 
-      {/* 위임 대화 스크립트 */}
+      {/* 지원적 행동 대화 */}
       <Card>
-        <SectionTitle
-          eyebrow="Script"
-          title="위임 대화 스크립트"
-          note="면담 때 이 흐름으로 이야기해 보세요"
-        />
-        <ol className="mt-5 space-y-4">
-          {result.conversationScript.map((step, i) => (
-            <li key={i} className="relative pl-8">
-              <span className="absolute left-0 top-0 flex h-6 w-6 items-center justify-center rounded-full bg-ink font-display text-[11px] font-bold text-white">
-                {i + 1}
-              </span>
-              {i < result.conversationScript.length - 1 && (
-                <span className="absolute left-3 top-6 h-full w-px bg-line" aria-hidden />
-              )}
-              <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-gold">
-                {step.stage}
+        <SectionTitle eyebrow="Supportive Dialogue" title="지원적 행동 대화" note={level.supportiveHeadline} />
+        <div className="mt-5 space-y-3">
+          {SUPPORTIVE_CATEGORIES.map((c) => (
+            <div key={c.key} className="rounded-2xl border border-line bg-canvas/50 p-4">
+              <div className="flex items-baseline justify-between gap-2">
+                <span className="text-sm font-semibold text-ink">{c.label}</span>
+                <span className="text-[11px] text-ink-muted">{c.hint}</span>
+              </div>
+              <p className="mt-2 border-l-2 border-gold pl-3 text-sm italic leading-relaxed text-ink-soft">
+                “{result.supportiveApproach[c.key]}”
               </p>
-              <p className="mt-1 text-sm italic leading-relaxed text-ink">“{step.line}”</p>
-            </li>
+            </div>
           ))}
-        </ol>
+        </div>
       </Card>
 
       {/* 발달 신호 */}
