@@ -23,10 +23,10 @@ const STYLE_TO_LEVEL: Record<LeadershipStyle, DevelopmentLevel> = {
 export function SliiGrid({ active }: { active: LeadershipStyle }) {
   return (
     <div className="flex">
-      {/* y축 라벨 */}
+      {/* y축 라벨 (아래→위로 읽힘, 위로 갈수록 지원 높음) */}
       <div className="flex w-5 items-center justify-center">
-        <span className="whitespace-nowrap text-[10px] font-medium uppercase tracking-[0.15em] text-ink-muted [writing-mode:vertical-rl] rotate-180">
-          지원적 행동 ↑
+        <span className="-rotate-90 whitespace-nowrap text-[10px] font-medium tracking-[0.12em] text-ink-muted">
+          지원적 행동 →
         </span>
       </div>
 
