@@ -37,10 +37,13 @@ cp .env.example .env.local
 
 | 변수 | 설명 | 기본값 |
 | --- | --- | --- |
-| `LLM_PROVIDER` | 사용할 Provider (`anthropic` \| `mock`) | 자동 판별 |
-| `ANTHROPIC_API_KEY` | Anthropic API Key. 비어 있으면 자동으로 예시(Mock) 모드 | (없음) |
-| `ANTHROPIC_MODEL` | 사용할 모델 | `claude-sonnet-5` |
+| `LLM_PROVIDER` | 사용할 Provider (`openai` \| `anthropic` \| `mock`) | 자동 판별 |
+| `OPENAI_API_KEY` | OpenAI API Key. 비어 있으면 자동으로 예시(Mock) 모드 | (없음) |
+| `OPENAI_MODEL` | 사용할 OpenAI 모델 | `gpt-4o-mini` |
+| `ANTHROPIC_API_KEY` | (선택) Anthropic API Key | (없음) |
+| `ANTHROPIC_MODEL` | (선택) Anthropic 모델 | `claude-sonnet-5` |
 
+Provider 미지정 시 OpenAI 키 → Anthropic 키 → Mock 순으로 자동 선택됩니다.
 API Key는 서버 라우트(`src/app/api/**`)에서만 사용하며 클라이언트 번들에 포함되지 않습니다.
 
 ## 3. 개발 서버 실행
