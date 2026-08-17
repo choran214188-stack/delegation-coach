@@ -12,40 +12,57 @@ export interface DiagnoseInput {
 
 /** 발달수준에 맞춘 위임 실행 가이드 (부서장이 실제로 정할 것들). */
 export interface DelegationPlan {
-  /** 이 위임에서 현실적으로 기대할 결과 수준 */
   expectedOutcome: string;
-  /** 어디까지 권한을 넘길지 (의사결정 권한의 범위) */
   authorityScope: string;
-  /** 어떤 주기·방식으로 점검할지 */
   checkInMethod: string;
-  /** 팀장이 부서장에게 도움을 요청해야 하는 기준 */
   supportRequestCriteria: string;
+}
+
+/** 발달 신호 — 사람을 성장시켜 위임 수준을 조정하기 위한 관찰 포인트. */
+export interface DevelopmentSignals {
+  /** 다음 단계로 위임 수준을 올려도 되는 신호 */
+  levelUp: string[];
+  /** 뒤로 밀렸으니 지원을 늘려야 하는 경고 신호 */
+  warning: string[];
+}
+
+/** 위임 대화 스크립트 한 단계. */
+export interface ConversationStep {
+  /** 단계 이름 (예: 도입 / 목표·기대 / 권한·점검 / 마무리) */
+  stage: string;
+  /** 그 단계에서 부서장이 할 실제 대사 */
+  line: string;
 }
 
 /** AI 분석 결과. */
 export interface DiagnosisResult {
   developmentLevel: DevelopmentLevel;
   leadershipStyle: LeadershipStyle;
-  /** 역량에 대한 한 줄 판단 근거 */
+  /** 진단 확신도 (높음 / 보통 / 낮음) */
+  confidence: string;
+  /** 확신도에 대한 부연 — 경계 케이스나 추가로 확인할 점 */
+  confidenceNote: string;
+  /** 역량에 대한 판단 근거 */
   competenceReading: string;
-  /** 의욕/의지에 대한 한 줄 판단 근거 */
+  /** 의욕/의지에 대한 판단 근거 */
   commitmentReading: string;
   /** 진단 요약 (2~3문장) */
   summary: string;
-  /** 구체적인 지원 방법 (권장 스타일에 맞춘 행동) */
+  /** 구체적인 지원 방법 */
   supportActions: string[];
   /** 주의할 점 / 흔한 실수 */
   watchOuts: string[];
   /** 위임 실행 가이드 (기대결과·권한범위·점검방식·지원요청기준) */
   delegationPlan: DelegationPlan;
-  /** 대화를 시작할 때 쓸 수 있는 예시 한마디 */
-  openingLine: string;
+  /** 발달 신호 (레벨 이동 판단) */
+  developmentSignals: DevelopmentSignals;
+  /** 위임 대화 스크립트 (단계별 대사) */
+  conversationScript: ConversationStep[];
 }
 
 export interface DiagnoseSuccess {
   ok: true;
   result: DiagnosisResult;
-  /** 실제 LLM으로 분석했는지, 키가 없어 Mock으로 동작했는지 */
   mock: boolean;
 }
 

@@ -27,7 +27,7 @@ export async function POST(request: Request): Promise<NextResponse<DiagnoseRespo
     const raw = await provider.complete({
       system: SYSTEM_PROMPT,
       messages: [{ role: "user", content: buildUserMessage(parsedInput.data) }],
-      maxTokens: 1500,
+      maxTokens: 2400,
     });
     const result = parseDiagnosis(raw);
     return NextResponse.json({ ok: true, result, mock: provider.isMock });

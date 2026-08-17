@@ -1,6 +1,11 @@
 import type { CompletionRequest, LlmProvider } from "./provider";
 import { DEVELOPMENT_LEVELS, type DevelopmentLevel } from "@/config/blanchard";
-import type { DelegationPlan, DiagnosisResult } from "@/types/diagnosis";
+import type {
+  ConversationStep,
+  DelegationPlan,
+  DevelopmentSignals,
+  DiagnosisResult,
+} from "@/types/diagnosis";
 
 /**
  * API Key 가 없을 때 동작하는 Mock Provider.
@@ -27,11 +32,15 @@ export class MockProvider implements LlmProvider {
       leadershipStyle: info.recommendedStyle,
       competenceReading: `입력 내용에서 역량은 '${info.competence}' 수준으로 보입니다. (예시 분석)`,
       commitmentReading: `의욕·의지는 '${info.commitment}' 수준으로 보입니다. (예시 분석)`,
-      summary: `${info.name}(${level})으로 추정됩니다. ${info.description} 이 결과는 API 키가 없어 예시(Mock)로 생성된 것으로, 실제 분석 품질은 Anthropic 키를 설정하면 나옵니다.`,
+      confidence: "보통",
+      confidenceNote:
+        "키워드 기반 예시 판정이라 확신도는 '보통'입니다. API 키를 설정하면 입력 근거로 정밀하게 판단합니다.",
+      summary: `${info.name}(${level})으로 추정됩니다. ${info.description} 이 결과는 API 키가 없어 예시(Mock)로 생성된 것으로, 실제 분석 품질은 키를 설정하면 나옵니다.`,
       supportActions: MOCK_ACTIONS[level],
       watchOuts: MOCK_WATCHOUTS[level],
       delegationPlan: MOCK_PLANS[level],
-      openingLine: MOCK_OPENINGS[level],
+      developmentSignals: MOCK_SIGNALS[level],
+      conversationScript: MOCK_SCRIPTS[level],
     };
     return JSON.stringify(result);
   }
@@ -116,9 +125,48 @@ const MOCK_PLANS: Record<DevelopmentLevel, DelegationPlan> = {
   },
 };
 
-const MOCK_OPENINGS: Record<DevelopmentLevel, string> = {
-  D1: "이번 일 처음이라 낯설 텐데, 목표랑 첫 단계부터 같이 정리해볼까요?",
-  D2: "요즘 이 업무가 생각보다 만만치 않죠. 어떤 부분이 제일 부담되는지 편하게 말해줄래요?",
-  D3: "이 부분은 충분히 잘 해내고 있어요. 어떻게 진행하고 싶은지 먼저 들어보고 싶어요.",
-  D4: "이 건은 목표만 공유하고 방식은 믿고 맡길게요. 필요할 때 편하게 얘기해요.",
+const MOCK_SIGNALS: Record<DevelopmentLevel, DevelopmentSignals> = {
+  D1: {
+    levelUp: ["기본 절차를 스스로 처리하기 시작함", "먼저 방법을 제안해 옴"],
+    warning: ["같은 질문을 반복하거나 진행이 멈춤", "의욕은 있으나 방향을 자주 잃음"],
+  },
+  D2: {
+    levelUp: ["다시 자신감을 회복하고 스스로 시도함", "막혀도 먼저 해결책을 들고 옴"],
+    warning: ["이탈 신호(회피·침묵)가 보임", "실패가 반복되며 동기가 더 떨어짐"],
+  },
+  D3: {
+    levelUp: ["확신을 갖고 스스로 결정·완수함", "도움 요청이 눈에 띄게 줄어듦"],
+    warning: ["결정을 자꾸 미루거나 확인받으려 함", "부담되는 이슈에서 위축됨"],
+  },
+  D4: {
+    levelUp: ["더 큰 범위·난도의 일을 자원함", "다른 사람을 이끌기 시작함"],
+    warning: ["결과 품질이 떨어지거나 방향을 이탈함", "혼자 끌어안고 리스크를 늦게 공유함"],
+  },
+};
+
+const MOCK_SCRIPTS: Record<DevelopmentLevel, ConversationStep[]> = {
+  D1: [
+    { stage: "도입", line: "이번 일 처음이라 낯설 텐데, 부담 갖지 말고 같이 시작해봐요." },
+    { stage: "목표·기대 공유", line: "목표는 이거고, 첫 단계는 여기까지만 이렇게 해보면 돼요." },
+    { stage: "권한·점검 합의", line: "정해진 방식대로 진행하고, 이틀에 한 번씩 짧게 같이 확인해요." },
+    { stage: "확인·마무리", line: "막히면 바로 얘기해요. 혼자 오래 붙들지 않아도 됩니다." },
+  ],
+  D2: [
+    { stage: "도입", line: "요즘 이 업무가 생각보다 만만치 않죠. 잠깐 얘기 좀 해요." },
+    { stage: "목표·기대 공유", line: "한 번에 다 말고, 이번엔 이 부분만 목표로 잡아봐요." },
+    { stage: "권한·점검 합의", line: "핵심 결정은 같이 하고, 중간중간 어떻게 돼가는지 나눠요." },
+    { stage: "확인·마무리", line: "지금 제일 부담되는 게 뭐예요? 같이 풀어봐요." },
+  ],
+  D3: [
+    { stage: "도입", line: "이 부분은 충분히 잘 해내고 있어요. 이번 건 얘기해볼까요?" },
+    { stage: "목표·기대 공유", line: "최종 결과랑 기준만 맞추고, 방법은 편한 대로 해도 좋아요." },
+    { stage: "권한·점검 합의", line: "주요 지점에서만 공유해주고, 판단은 믿고 맡길게요." },
+    { stage: "확인·마무리", line: "어떻게 진행하고 싶은지 먼저 듣고 싶어요." },
+  ],
+  D4: [
+    { stage: "도입", line: "이 건은 믿고 맡기려고요. 방향만 간단히 맞춰봐요." },
+    { stage: "목표·기대 공유", line: "결과와 방향만 합의하고, 방식·자원은 알아서 정하면 돼요." },
+    { stage: "권한·점검 합의", line: "결정 권한은 전적으로 넘길게요. 결과로 소통해요." },
+    { stage: "확인·마무리", line: "중대한 리스크나 판단 필요할 때만 편하게 얘기해요." },
+  ],
 };

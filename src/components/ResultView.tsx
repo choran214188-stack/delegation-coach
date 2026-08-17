@@ -13,6 +13,7 @@ export function ResultView({
   const style = LEADERSHIP_STYLES[result.leadershipStyle];
   const who = memberName?.trim() || "이 팀장";
   const plan = result.delegationPlan;
+  const signals = result.developmentSignals;
 
   const guides = [
     { n: "01", label: "기대결과", text: plan.expectedOutcome },
@@ -30,7 +31,12 @@ export function ResultView({
           style={{ backgroundColor: level.accent }}
           aria-hidden
         />
-        <p className="eyebrow text-gold-soft">진단 결과 · {who}</p>
+        <div className="flex items-start justify-between gap-3">
+          <p className="eyebrow text-gold-soft">진단 결과 · {who}</p>
+          <span className="flex-none rounded-full bg-white/10 px-2.5 py-1 text-[11px] font-medium text-white/80 ring-1 ring-white/15">
+            확신도 · {result.confidence}
+          </span>
+        </div>
         <div className="mt-3 flex items-end gap-3">
           <span
             className="font-display text-6xl font-bold leading-none"
@@ -42,7 +48,7 @@ export function ResultView({
         </div>
         <p className="mt-3 max-w-lg text-sm leading-relaxed text-white/70">{level.description}</p>
 
-        {/* 권장 위임 방식 (교육 자료 유형별 부제) */}
+        {/* 권장 위임 방식 */}
         <div className="mt-4 rounded-2xl bg-white/5 px-4 py-3 ring-1 ring-white/10">
           <p className="eyebrow text-gold-soft">권장 위임 방식</p>
           <p className="mt-1 text-[15px] font-bold text-white">
@@ -85,6 +91,12 @@ export function ResultView({
       <Card>
         <SectionTitle eyebrow="요약" title="진단 요약" />
         <p className="mt-3 text-sm leading-relaxed text-ink-soft">{result.summary}</p>
+        <div className="mt-4 rounded-xl bg-canvas/70 px-3.5 py-2.5">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-gold">
+            확신도 · {result.confidence}
+          </p>
+          <p className="mt-1 text-[13px] leading-relaxed text-ink-soft">{result.confidenceNote}</p>
+        </div>
       </Card>
 
       {/* 위임 실행 가이드 */}
@@ -105,6 +117,54 @@ export function ResultView({
               <p className="mt-1.5 text-[13px] leading-relaxed text-ink-soft">{g.text}</p>
             </div>
           ))}
+        </div>
+      </Card>
+
+      {/* 위임 대화 스크립트 */}
+      <Card>
+        <SectionTitle
+          eyebrow="Script"
+          title="위임 대화 스크립트"
+          note="면담 때 이 흐름으로 이야기해 보세요"
+        />
+        <ol className="mt-5 space-y-4">
+          {result.conversationScript.map((step, i) => (
+            <li key={i} className="relative pl-8">
+              <span className="absolute left-0 top-0 flex h-6 w-6 items-center justify-center rounded-full bg-ink font-display text-[11px] font-bold text-white">
+                {i + 1}
+              </span>
+              {i < result.conversationScript.length - 1 && (
+                <span className="absolute left-3 top-6 h-full w-px bg-line" aria-hidden />
+              )}
+              <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-gold">
+                {step.stage}
+              </p>
+              <p className="mt-1 text-sm italic leading-relaxed text-ink">“{step.line}”</p>
+            </li>
+          ))}
+        </ol>
+      </Card>
+
+      {/* 발달 신호 */}
+      <Card>
+        <SectionTitle
+          eyebrow="Growth"
+          title="발달 신호"
+          note="이 신호를 보고 위임 수준을 조정하세요"
+        />
+        <div className="mt-4 grid gap-3 sm:grid-cols-2">
+          <SignalBlock
+            tone="sage"
+            title="한 단계 올려도 될 신호"
+            items={signals.levelUp}
+            symbol="▲"
+          />
+          <SignalBlock
+            tone="clay"
+            title="지원을 늘려야 할 경고 신호"
+            items={signals.warning}
+            symbol="▼"
+          />
         </div>
       </Card>
 
@@ -135,14 +195,6 @@ export function ResultView({
           ))}
         </ul>
       </div>
-
-      {/* 오프닝 멘트 */}
-      <Card>
-        <SectionTitle eyebrow="Opening" title="위임 대화를 이렇게 시작해 보세요" />
-        <blockquote className="mt-4 border-l-2 border-gold pl-4 text-[15px] italic leading-relaxed text-ink">
-          “{result.openingLine}”
-        </blockquote>
-      </Card>
     </div>
   );
 }
@@ -189,5 +241,35 @@ function Pill({ children }: { children: React.ReactNode }) {
     <span className="rounded-full border border-line bg-canvas px-3 py-1 text-xs font-medium text-ink-soft">
       {children}
     </span>
+  );
+}
+
+function SignalBlock({
+  tone,
+  title,
+  items,
+  symbol,
+}: {
+  tone: "sage" | "clay";
+  title: string;
+  items: string[];
+  symbol: string;
+}) {
+  const c =
+    tone === "sage"
+      ? { border: "border-sage/25", bg: "bg-sage-pale", label: "text-sage", dot: "text-sage" }
+      : { border: "border-clay/25", bg: "bg-clay-pale", label: "text-clay", dot: "text-clay" };
+  return (
+    <div className={`rounded-2xl border ${c.border} ${c.bg} p-4`}>
+      <p className={`text-sm font-semibold ${c.label}`}>{title}</p>
+      <ul className="mt-2.5 space-y-1.5">
+        {items.map((item, i) => (
+          <li key={i} className="flex gap-2 text-[13px] leading-relaxed text-ink-soft">
+            <span className={`flex-none text-[10px] leading-5 ${c.dot}`}>{symbol}</span>
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }

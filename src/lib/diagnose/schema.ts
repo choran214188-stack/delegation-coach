@@ -27,6 +27,8 @@ const shortText = z.string().trim().min(1);
 const resultSchema = z.object({
   developmentLevel: z.enum(DEVELOPMENT_LEVEL_IDS as [string, ...string[]]),
   leadershipStyle: z.enum(LEADERSHIP_STYLE_IDS as [string, ...string[]]),
+  confidence: shortText,
+  confidenceNote: shortText,
   competenceReading: shortText,
   commitmentReading: shortText,
   summary: shortText,
@@ -38,7 +40,14 @@ const resultSchema = z.object({
     checkInMethod: shortText,
     supportRequestCriteria: shortText,
   }),
-  openingLine: shortText,
+  developmentSignals: z.object({
+    levelUp: z.array(shortText).min(1).max(4),
+    warning: z.array(shortText).min(1).max(4),
+  }),
+  conversationScript: z
+    .array(z.object({ stage: shortText, line: shortText }))
+    .min(2)
+    .max(6),
 });
 
 /**
@@ -69,13 +78,16 @@ export function parseDiagnosis(raw: string): DiagnosisResult {
     leadershipStyle: (data.leadershipStyle === recommended
       ? data.leadershipStyle
       : recommended) as DiagnosisResult["leadershipStyle"],
+    confidence: data.confidence,
+    confidenceNote: data.confidenceNote,
     competenceReading: data.competenceReading,
     commitmentReading: data.commitmentReading,
     summary: data.summary,
     supportActions: data.supportActions,
     watchOuts: data.watchOuts,
     delegationPlan: data.delegationPlan,
-    openingLine: data.openingLine,
+    developmentSignals: data.developmentSignals,
+    conversationScript: data.conversationScript,
   };
 }
 
