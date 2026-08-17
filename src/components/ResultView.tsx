@@ -110,8 +110,8 @@ export function ResultView({
       {/* 위임 실행 가이드 */}
       <Card>
         <SectionTitle
-          eyebrow="Delegation Plan"
-          title="위임 실행 가이드"
+          eyebrow="Directive"
+          title="지시적 행동 가이드"
           note={`${level.id} 수준에 맞춘 초안 — 상황에 맞게 조정하세요`}
         />
         <div className="mt-5 grid gap-3 sm:grid-cols-2">
