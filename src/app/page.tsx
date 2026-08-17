@@ -53,7 +53,7 @@ export default function Page() {
     <main className="mx-auto max-w-2xl px-5 py-12 sm:py-16">
       {/* 헤더 */}
       <header className="mb-9 text-center">
-        <p className="eyebrow text-gold">Blanchard SLII · 상황대응 리더십</p>
+        <p className="eyebrow text-gold">상황대응 리더십</p>
         <h1 className="mt-3 text-4xl font-bold tracking-tight text-ink sm:text-[2.75rem]">
           위임 나침반
         </h1>
