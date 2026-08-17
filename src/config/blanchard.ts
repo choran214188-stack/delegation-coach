@@ -18,6 +18,12 @@ export interface DevelopmentLevelInfo {
   commitment: string; // 의욕/헌신 수준
   description: string;
   recommendedStyle: LeadershipStyle;
+  /** 위임 방식 부제 (예: 구체적 지시 중심 / 단계적 위임 / 자율 + 지원 / 결과 중심 위임) */
+  delegationMode: string;
+  /** 한 줄 요약 (위임 방식 핵심) */
+  oneLiner: string;
+  /** 유형별 포인트 색 (교육 자료 색상 코드) */
+  accent: string;
 }
 
 export interface LeadershipStyleInfo {
@@ -40,6 +46,9 @@ export const DEVELOPMENT_LEVELS: Record<DevelopmentLevel, DevelopmentLevelInfo> 
     description:
       "업무를 처음 맡아 방법·기준은 아직 모르지만 배우려는 의욕과 기대는 높은 상태입니다.",
     recommendedStyle: "S1",
+    delegationMode: "구체적 지시 중심",
+    oneLiner: "구체적으로 지시하고, 자주 확인합니다.",
+    accent: "#C0453A",
   },
   D2: {
     id: "D2",
@@ -49,6 +58,9 @@ export const DEVELOPMENT_LEVELS: Record<DevelopmentLevel, DevelopmentLevelInfo> 
     description:
       "어느 정도 해봤지만 생각보다 어렵다는 걸 깨닫고 자신감·의욕이 떨어진 상태입니다. 가장 세심한 지원이 필요한 구간입니다.",
     recommendedStyle: "S2",
+    delegationMode: "단계적 위임",
+    oneLiner: "작게 나누어 맡기고, 함께 풀어갑니다.",
+    accent: "#C67B2C",
   },
   D3: {
     id: "D3",
@@ -58,6 +70,9 @@ export const DEVELOPMENT_LEVELS: Record<DevelopmentLevel, DevelopmentLevelInfo> 
     description:
       "역량은 충분하지만 스스로에 대한 확신이 부족하거나 의욕이 오르내리는 상태입니다. 밀어주는 지원이 필요합니다.",
     recommendedStyle: "S3",
+    delegationMode: "자율 + 지원",
+    oneLiner: "자율성을 보장하고, 필요할 때 지원합니다.",
+    accent: "#3F7A5B",
   },
   D4: {
     id: "D4",
@@ -66,6 +81,9 @@ export const DEVELOPMENT_LEVELS: Record<DevelopmentLevel, DevelopmentLevelInfo> 
     commitment: "높음",
     description: "역량과 의욕이 모두 높아 스스로 판단하고 실행할 수 있는 상태입니다.",
     recommendedStyle: "S4",
+    delegationMode: "결과 중심 위임",
+    oneLiner: "결과만 합의하고, 자율적으로 맡깁니다.",
+    accent: "#2F5D86",
   },
 };
 

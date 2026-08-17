@@ -26,15 +26,30 @@ export function ResultView({
       {/* 히어로: 발달수준 */}
       <div className="relative overflow-hidden rounded-3xl bg-ink p-7 text-white shadow-panel sm:p-8">
         <div
-          className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-gold/20 blur-3xl"
+          className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full opacity-30 blur-3xl"
+          style={{ backgroundColor: level.accent }}
           aria-hidden
         />
         <p className="eyebrow text-gold-soft">진단 결과 · {who}</p>
         <div className="mt-3 flex items-end gap-3">
-          <span className="font-display text-6xl font-bold leading-none text-white">{level.id}</span>
+          <span
+            className="font-display text-6xl font-bold leading-none"
+            style={{ color: level.accent }}
+          >
+            {level.id}
+          </span>
           <span className="pb-1 text-2xl font-bold tracking-tight text-white">{level.name}</span>
         </div>
         <p className="mt-3 max-w-lg text-sm leading-relaxed text-white/70">{level.description}</p>
+
+        {/* 권장 위임 방식 (교육 자료 유형별 부제) */}
+        <div className="mt-4 rounded-2xl bg-white/5 px-4 py-3 ring-1 ring-white/10">
+          <p className="eyebrow text-gold-soft">권장 위임 방식</p>
+          <p className="mt-1 text-[15px] font-bold text-white">
+            {level.delegationMode}
+            <span className="ml-2 text-sm font-normal text-white/65">{level.oneLiner}</span>
+          </p>
+        </div>
 
         <div className="mt-6 h-px w-full bg-white/10" />
         <div className="mt-5 grid grid-cols-2 gap-4">
