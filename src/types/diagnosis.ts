@@ -26,19 +26,24 @@ export interface DevelopmentSignals {
   warning: string[];
 }
 
-/**
- * 지원적 행동 대화 접근 (4가지 관점).
- * 각 값은 이 팀장·업무에 맞춘 실제 예시 대사.
- */
+/** 지원적 행동 한 관점 — 구체 지침 + 예시 대사. */
+export interface SupportiveItem {
+  /** 이 관점에서 실제로 어떻게 해야 하는지 (구체 지침, 명령형) */
+  how: string;
+  /** 이 팀장·업무에 맞춘 실제 예시 대사 */
+  example: string;
+}
+
+/** 지원적 행동 대화 접근 (4가지 관점). */
 export interface SupportiveApproach {
   /** 의견 경청 및 질문 */
-  listen: string;
+  listen: SupportiveItem;
   /** 참여적 의사결정 */
-  decide: string;
+  decide: SupportiveItem;
   /** 인정과 격려 */
-  recognize: string;
+  recognize: SupportiveItem;
   /** 자율성 및 성장 지원 */
-  grow: string;
+  grow: SupportiveItem;
 }
 
 /** AI 분석 결과. */

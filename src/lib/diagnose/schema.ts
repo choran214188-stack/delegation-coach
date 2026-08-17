@@ -22,6 +22,7 @@ export const diagnoseInputSchema = z.object({
 });
 
 const shortText = z.string().trim().min(1);
+const supportiveItem = z.object({ how: shortText, example: shortText });
 
 /** LLM 응답(JSON) 검증 스키마. */
 const resultSchema = z.object({
@@ -45,10 +46,10 @@ const resultSchema = z.object({
     warning: z.array(shortText).min(1).max(4),
   }),
   supportiveApproach: z.object({
-    listen: shortText,
-    decide: shortText,
-    recognize: shortText,
-    grow: shortText,
+    listen: supportiveItem,
+    decide: supportiveItem,
+    recognize: supportiveItem,
+    grow: supportiveItem,
   }),
 });
 
