@@ -106,8 +106,8 @@ export const LEADERSHIP_STYLES: Record<LeadershipStyle, LeadershipStyleInfo> = {
   },
   S2: {
     id: "S2",
-    name: "코칭형",
-    keyword: "Coaching",
+    name: "설득형",
+    keyword: "Selling",
     directive: "높음",
     supportive: "높음",
     description:

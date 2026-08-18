@@ -25,7 +25,7 @@ export function SliiGrid({ active }: { active: LeadershipStyle }) {
     <div className="flex">
       {/* y축 라벨 (아래→위로 읽힘, 위로 갈수록 지원 높음) */}
       <div className="flex w-6 items-center justify-center">
-        <span className="-rotate-90 whitespace-nowrap text-[11px] font-semibold tracking-[0.1em] text-ink-soft">
+        <span className="-rotate-90 whitespace-nowrap text-[11px] font-bold tracking-[0.1em] text-ink">
           지원적 행동 <span className="text-gold">→</span>
         </span>
       </div>
@@ -88,8 +88,8 @@ export function SliiGrid({ active }: { active: LeadershipStyle }) {
         </div>
 
         {/* x축 라벨 */}
-        <div className="mt-2.5 text-center text-[10px] font-medium uppercase tracking-[0.15em] text-ink-muted">
-          ← 지시적 행동 →
+        <div className="mt-2.5 text-center text-[11px] font-bold tracking-[0.15em] text-ink">
+          <span className="text-gold">←</span> 지시적 행동 <span className="text-gold">→</span>
         </div>
       </div>
     </div>
