@@ -1,17 +1,19 @@
 import {
   LEADERSHIP_STYLES,
+  DEVELOPMENT_LEVELS,
   type LeadershipStyle,
   type DevelopmentLevel,
 } from "@/config/blanchard";
 
 /**
- * SLII 2x2 지도.
- * x축 = 지시적 행동(Directive), y축 = 지원적 행동(Supportive).
- *   S3(위 왼쪽)  S2(위 오른쪽)
- *   S4(아래 왼쪽) S1(아래 오른쪽)
+ * 구성원 진단 지도 (발달수준 2x2).
+ * x축 = 구성원 의지(commitment), y축 = 구성원 역량(competence).
+ *   S3(위 왼쪽)  S4(위 오른쪽)   ← 역량 높음
+ *   S2(아래 왼쪽) S1(아래 오른쪽) ← 역량 낮음
+ *   왼쪽 = 의지 낮음, 오른쪽 = 의지 높음
  * 진단된 스타일 칸을 딥 네이비로 강조한다.
  */
-const CELL_ORDER: LeadershipStyle[] = ["S3", "S2", "S4", "S1"];
+const CELL_ORDER: LeadershipStyle[] = ["S3", "S4", "S2", "S1"];
 
 const STYLE_TO_LEVEL: Record<LeadershipStyle, DevelopmentLevel> = {
   S1: "D1",
@@ -23,10 +25,10 @@ const STYLE_TO_LEVEL: Record<LeadershipStyle, DevelopmentLevel> = {
 export function SliiGrid({ active }: { active: LeadershipStyle }) {
   return (
     <div className="flex">
-      {/* y축 라벨 (아래→위로 읽힘, 위로 갈수록 지원 높음) */}
+      {/* y축 라벨 (아래→위로 읽힘, 위로 갈수록 역량 높음) */}
       <div className="flex w-6 items-center justify-center">
         <span className="-rotate-90 whitespace-nowrap text-[11px] font-bold tracking-[0.1em] text-ink">
-          지원적 행동 <span className="text-gold">→</span>
+          구성원 역량 <span className="text-gold">→</span>
         </span>
       </div>
 
@@ -34,6 +36,7 @@ export function SliiGrid({ active }: { active: LeadershipStyle }) {
         <div className="grid grid-cols-2 gap-2.5">
           {CELL_ORDER.map((id) => {
             const s = LEADERSHIP_STYLES[id];
+            const level = DEVELOPMENT_LEVELS[STYLE_TO_LEVEL[id]];
             const isActive = id === active;
             return (
               <div
@@ -63,7 +66,7 @@ export function SliiGrid({ active }: { active: LeadershipStyle }) {
                       isActive ? "bg-gold text-white" : "bg-canvas text-ink-muted",
                     ].join(" ")}
                   >
-                    {STYLE_TO_LEVEL[id]}
+                    {level.id}
                   </span>
                 </div>
                 <p
@@ -80,16 +83,16 @@ export function SliiGrid({ active }: { active: LeadershipStyle }) {
                     isActive ? "text-white/70" : "text-ink-muted",
                   ].join(" ")}
                 >
-                  지시 {s.directive} · 지원 {s.supportive}
+                  역량 {level.competence} · 의지 {level.commitment}
                 </p>
               </div>
             );
           })}
         </div>
 
-        {/* x축 라벨 */}
+        {/* x축 라벨 (오른쪽으로 갈수록 의지 높음) */}
         <div className="mt-2.5 text-center text-[11px] font-bold tracking-[0.15em] text-ink">
-          <span className="text-gold">←</span> 지시적 행동 <span className="text-gold">→</span>
+          구성원 의지 <span className="text-gold">→</span>
         </div>
       </div>
     </div>
