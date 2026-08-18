@@ -129,7 +129,7 @@ export default function Page() {
         </h1>
         <div className="mx-auto mt-4 h-px w-14 bg-gradient-to-r from-transparent via-gold to-transparent" />
         <p className="mx-auto mt-4 max-w-md text-[15px] leading-relaxed text-ink-muted">
-          위임할 업무와 팀장의 정보를 넣으면, 그 팀장이 이 업무에서 어느 발달수준에 있는지 진단하고 어떤
+          위임할 업무와 구성원의 정보를 넣으면, 그 구성원이 이 업무에서 어느 발달수준에 있는지 진단하고 어떤
           리더십으로 위임을 설계·실행할지 안내합니다.
         </p>
       </header>
@@ -150,17 +150,17 @@ export default function Page() {
               />
             </Field>
 
-            <Field label="대상 팀장 · 호칭" hint="선택">
+            <Field label="대상 구성원 · 호칭" hint="선택">
               <input
                 value={memberName}
                 onChange={(e) => setMemberName(e.target.value)}
-                placeholder="예 · 김팀장, 박리더"
+                placeholder="예 · 김대리, 박주임"
                 className={inputClass}
               />
             </Field>
 
             <Field
-              label="팀장 정보"
+              label="구성원 정보"
               required
               hint="성격 · 업무 역량 · 의지 · 현재 상황을 자유롭게"
             >
