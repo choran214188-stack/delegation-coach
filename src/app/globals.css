@@ -17,6 +17,11 @@ body {
   font-family:
     "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
     "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+  /* 한국어 가독성: 어절(띄어쓰기) 단위로만 줄바꿈해 단어가 중간에 잘리지 않게 함.
+     아주 긴 영문/URL 토큰은 넘치지 않도록 break-word 로 보완. */
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  text-wrap: pretty;
   /* 상단의 은은한 골드 글로우로 깊이감 */
   background-image: radial-gradient(
     1100px 520px at 50% -8%,
