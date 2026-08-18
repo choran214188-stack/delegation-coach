@@ -52,7 +52,9 @@ export function ResultView({
           >
             {level.id}
           </span>
-          <span className="pb-1 text-2xl font-bold tracking-tight text-white">{level.name}</span>
+          <span className="text-balance pb-1 text-2xl font-bold leading-tight tracking-tight text-white">
+            {level.name}
+          </span>
         </div>
         <p className="mt-3 max-w-lg text-sm leading-relaxed text-white/70">{level.description}</p>
 
