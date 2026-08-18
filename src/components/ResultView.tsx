@@ -80,10 +80,6 @@ export function ResultView({
           <span className="text-xl font-bold text-ink">{style.name}</span>
           <span className="text-sm font-medium text-ink-muted">{style.keyword}</span>
         </div>
-        <div className="mt-3 flex flex-wrap gap-2">
-          <Pill>지시적 행동 {style.directive}</Pill>
-          <Pill>지원적 행동 {style.supportive}</Pill>
-        </div>
         <p className="mt-3 text-sm leading-relaxed text-ink-soft">{style.description}</p>
       </Card>
 
@@ -238,14 +234,6 @@ function Stat({ label, value, reading }: { label: string; value: string; reading
       <p className="mt-1 text-lg font-bold text-white">{value}</p>
       <p className="mt-1 text-[12px] leading-relaxed text-white/55">{reading}</p>
     </div>
-  );
-}
-
-function Pill({ children }: { children: React.ReactNode }) {
-  return (
-    <span className="rounded-full border border-line bg-canvas px-3 py-1 text-xs font-medium text-ink-soft">
-      {children}
-    </span>
   );
 }
 
