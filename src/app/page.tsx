@@ -7,6 +7,13 @@ import type { DiagnoseResponse, DiagnosisResult } from "@/types/diagnosis";
 
 type Status = "idle" | "loading" | "done" | "error";
 
+const LOADING_STEPS = [
+  "구성원의 역량·의지 분석 중…",
+  "발달수준 진단 중…",
+  "권장 리더십·위임 방식 설계 중…",
+  "지원 대화·실행 가이드 작성 중…",
+];
+
 export default function Page() {
   const [task, setTask] = useState("");
   const [memberName, setMemberName] = useState("");
@@ -20,6 +27,17 @@ export default function Page() {
   const [shared, setShared] = useState(false); // 공유 링크로 열린 결과인가
   const [shareUrl, setShareUrl] = useState<string | null>(null);
   const [toast, setToast] = useState<string | null>(null);
+
+  // 로딩 중 단계 메시지 (실제 시간은 같지만 체감 대기를 줄임)
+  const [loadingStep, setLoadingStep] = useState(0);
+  useEffect(() => {
+    if (status !== "loading") return;
+    setLoadingStep(0);
+    const t = setInterval(() => {
+      setLoadingStep((s) => Math.min(s + 1, LOADING_STEPS.length - 1));
+    }, 1800);
+    return () => clearInterval(t);
+  }, [status]);
 
   // 공유 링크(#r=...)로 접속하면 결과를 복원해 바로 렌더링
   useEffect(() => {
@@ -189,7 +207,7 @@ export default function Page() {
               {status === "loading" ? (
                 <>
                   <Spinner />
-                  진단하는 중…
+                  {LOADING_STEPS[loadingStep]}
                 </>
               ) : (
                 <>
