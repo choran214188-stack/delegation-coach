@@ -69,7 +69,7 @@ function guessLevel(text: string): DevelopmentLevel {
     if (willHigh && !willLow) return "D4";
     return "D3";
   }
-  // 역량이 낮으면(처음·신입): 의지 낮으면 D2(좌절), 아니면 D1(열정적 초보자)
+  // 역량이 낮으면(처음·신입): 의지 낮으면 D2(좌절), 아니면 D1(열의 있는 초심자)
   if (compLow) return willLow ? "D2" : "D1";
 
   // 역량 신호가 애매할 때는 의지 신호로 추정

@@ -42,7 +42,7 @@ export interface LeadershipStyleInfo {
 export const DEVELOPMENT_LEVELS: Record<DevelopmentLevel, DevelopmentLevelInfo> = {
   D1: {
     id: "D1",
-    name: "열정적 초심자",
+    name: "열의 있는 초심자",
     competence: "낮음",
     commitment: "높음",
     description:
@@ -68,7 +68,7 @@ export const DEVELOPMENT_LEVELS: Record<DevelopmentLevel, DevelopmentLevelInfo> 
   },
   D3: {
     id: "D3",
-    name: "유능하나 신중한 실행자",
+    name: "유능하지만 신중한 수행자",
     competence: "중간~높음",
     commitment: "변동적",
     description:
@@ -81,7 +81,7 @@ export const DEVELOPMENT_LEVELS: Record<DevelopmentLevel, DevelopmentLevelInfo> 
   },
   D4: {
     id: "D4",
-    name: "자기주도적 성취자",
+    name: "자율적 성과자",
     competence: "높음",
     commitment: "높음",
     description: "역량과 의욕이 모두 높아 스스로 판단하고 실행할 수 있는 상태입니다.",
