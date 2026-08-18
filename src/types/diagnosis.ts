@@ -4,9 +4,9 @@ import type { DevelopmentLevel, LeadershipStyle } from "@/config/blanchard";
 export interface DiagnoseInput {
   /** 위임하려는 업무 */
   task: string;
-  /** 대상 팀장 이름 또는 호칭 (선택) */
+  /** 대상 구성원 이름 또는 호칭 (선택) */
   memberName?: string;
-  /** 팀장의 성격·업무 역량·의지·현재 상황 자유 서술 */
+  /** 구성원의 성격·업무 역량·의지·현재 상황 자유 서술 */
   memberContext: string;
 }
 
@@ -30,7 +30,7 @@ export interface DevelopmentSignals {
 export interface SupportiveItem {
   /** 이 관점에서 실제로 어떻게 해야 하는지 (구체 지침, 명령형) */
   how: string;
-  /** 이 팀장·업무에 맞춘 실제 예시 대사 */
+  /** 이 구성원·업무에 맞춘 실제 예시 대사 */
   example: string;
 }
 

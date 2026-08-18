@@ -19,7 +19,7 @@ export function ResultView({
 }) {
   const level = DEVELOPMENT_LEVELS[result.developmentLevel];
   const style = LEADERSHIP_STYLES[result.leadershipStyle];
-  const who = memberName?.trim() || "이 팀장";
+  const who = memberName?.trim() || "이 구성원";
   const plan = result.delegationPlan;
   const signals = result.developmentSignals;
 

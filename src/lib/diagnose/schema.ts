@@ -17,7 +17,7 @@ export const diagnoseInputSchema = z.object({
   memberContext: z
     .string()
     .trim()
-    .min(5, "대상 팀장의 성격·역량·의지를 조금 더 설명해 주세요.")
+    .min(5, "대상 구성원의 성격·역량·의지를 조금 더 설명해 주세요.")
     .max(2000, "설명이 너무 깁니다. 2000자 이내로 입력해 주세요."),
 });
 

@@ -93,7 +93,7 @@ export default function Page() {
 
   async function handleShare() {
     if (!shareUrl) return;
-    const who = memberName.trim() || "이 팀장";
+    const who = memberName.trim() || "이 구성원";
     // 모바일: 네이티브 공유 시트(카카오톡 등). shareUrl 을 미리 만들어 둬 제스처 안에서 바로 호출.
     if (typeof navigator !== "undefined" && navigator.share) {
       try {
